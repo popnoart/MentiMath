@@ -1,16 +1,33 @@
-# mentimath_new
+# MentiMath 🧮
 
-A new Flutter project.
+Aplicación de cálculo mental para niños de primaria.
 
-## Getting Started
+## Características
 
-This project is a starting point for a Flutter application.
+- **➕ Sumas** con 3 niveles de dificultad
+- **➖ Restas** con 3 niveles de dificultad  
+- **✖️ Multiplicaciones** con 3 niveles de dificultad
+- **➗ Divisiones** básicas (cociente de 1 cifra, resto 0)
+- **🎯 Modo mixto** (operaciones aleatorias)
 
-A few resources to get you started if this is your first Flutter project:
+## Niveles de dificultad
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. **🥇 Fácil**: Números pequeños (0-9)
+2. **🥈 Medio**: Un número grande (10-99) y otro pequeño (0-9)
+3. **🥉 Difícil**: Dos números grandes (0-99)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Controles
+
+- **Swipe derecha (→)**: Siguiente operación
+- **Swipe izquierda (←)**: Operación anterior  
+- **Swipe abajo (↓)**: Ver respuesta
+- **Botones** en la parte inferior
+
+## Build
+
+```bash
+# Android APK
+flutter build apk --release
+
+# Web
+flutter build web --release
