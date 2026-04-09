@@ -1,0 +1,30 @@
+# Flutter
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+
+# Android
+android/.gradle
+android/.idea
+android/gradle-wrapper.jar
+android/local.properties
+android/**/GeneratedPluginRegistrant.java
+
+# iOS
+ios/.generated/
+ios/Flutter/App.framework/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/Flutter/GeneratedPluginRegistrant.*
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
