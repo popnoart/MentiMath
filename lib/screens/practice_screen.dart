@@ -76,7 +76,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
       return 'Mixtas - ${_getDifficultyName(widget.difficultyLevel)}';
     }
     if (_currentIndex >= 0) {
-      return '${_operations[_currentIndex].description} - ${_operations[_currentIndex].difficultyName}';
+      return '${_getOperationTypeName(widget.operationType!)} - ${_operations[_currentIndex].difficultyName}';
     }
     return '${_getOperationTypeName(widget.operationType!)} - ${_getDifficultyName(widget.difficultyLevel)}';
   }
@@ -84,13 +84,13 @@ class _PracticeScreenState extends State<PracticeScreen> {
   String _getOperationTypeName(OperationType type) {
     switch (type) {
       case OperationType.suma:
-        return 'Sumas';
+        return 'Sumar';
       case OperationType.resta:
-        return 'Restas';
+        return 'Restar';
       case OperationType.multiplicacion:
-        return 'Multiplicaciones';
+        return 'Multiplicar';
       case OperationType.division:
-        return 'Divisiones';
+        return 'Dividir';
     }
   }
 
@@ -136,7 +136,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
             ? _buildOperationCard(currentOperation!)
             : _buildLoadingScreen(),
       ),
-      bottomNavigationBar: _buildBottomNavigation(hasOperations),
+      bottomNavigationBar: _buildBottomNavigation(),
     );
   }
 
@@ -146,10 +146,10 @@ class _PracticeScreenState extends State<PracticeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircularProgressIndicator(),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           Text(
-            'Cargando operación...',
-            style: TextStyle(fontSize: 20, color: Colors.grey),
+            'Cargando...',
+            style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
         ],
       ),
@@ -159,48 +159,35 @@ class _PracticeScreenState extends State<PracticeScreen> {
   Widget _buildOperationCard(MathOperation operation) {
     return Container(
       color: Colors.grey[100],
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Operación ${_currentIndex + 1} - ${operation.difficultyName}',
-              style: const TextStyle(
-                fontSize: 20,
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-              ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Operación centrada
+          Expanded(
+            child: Center(
+              child: _buildOperationDisplay(operation),
             ),
-            const SizedBox(height: 10),
-            Text(
-              operation.difficultyDescription,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-            const SizedBox(height: 30),
-            _buildOperationDisplay(operation),
-            const SizedBox(height: 60),
-            _buildInstructions(),
-          ],
-        ),
+          ),
+          
+          // Espacio mínimo antes de los botones
+          const SizedBox(height: 10),
+        ],
       ),
     );
   }
 
   Widget _buildOperationDisplay(MathOperation operation) {
     return Container(
-      padding: const EdgeInsets.all(40),
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            blurRadius: 10,
-            spreadRadius: 2,
+            color: Colors.grey.withOpacity(0.2),
+            blurRadius: 8,
+            spreadRadius: 1,
           ),
         ],
       ),
@@ -210,41 +197,41 @@ class _PracticeScreenState extends State<PracticeScreen> {
           Text(
             operation.num1.toString(),
             style: const TextStyle(
-              fontSize: 80,
+              fontSize: 70,
               fontWeight: FontWeight.bold,
               color: Colors.blue,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Text(
             operation.symbol,
             style: const TextStyle(
-              fontSize: 60,
+              fontSize: 50,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Text(
             operation.num2.toString(),
             style: const TextStyle(
-              fontSize: 80,
+              fontSize: 70,
               fontWeight: FontWeight.bold,
               color: Colors.green,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
           Container(
-            height: 4,
-            width: 200,
+            height: 3,
+            width: 180,
             color: Colors.black,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
           if (!operation.isAnswered)
             const Text(
               '?',
               style: TextStyle(
-                fontSize: 80,
+                fontSize: 70,
                 fontWeight: FontWeight.bold,
                 color: Colors.orange,
               ),
@@ -255,22 +242,22 @@ class _PracticeScreenState extends State<PracticeScreen> {
                 Text(
                   operation.answer.toString(),
                   style: const TextStyle(
-                    fontSize: 80,
+                    fontSize: 70,
                     fontWeight: FontWeight.bold,
                     color: Colors.green,
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Colors.green[50],
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     '${operation.num1} ${operation.symbol} ${operation.num2} = ${operation.answer}',
                     style: const TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                       color: Colors.green,
                     ),
                   ),
@@ -282,96 +269,33 @@ class _PracticeScreenState extends State<PracticeScreen> {
     );
   }
 
-  Widget _buildInstructions() {
+  Widget _buildBottomNavigation() {
     return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.blue[50],
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Column(
-        children: [
-          const Text(
-            'Controles:',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildInstructionItem(Icons.arrow_back, 'Anterior\n(swipe ←)'),
-              _buildInstructionItem(Icons.arrow_downward, 'Ver respuesta\n(swipe ↓)'),
-              _buildInstructionItem(Icons.arrow_forward, 'Siguiente\n(swipe →)'),
-            ],
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            'También puedes usar los botones de abajo',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.blue,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildInstructionItem(IconData icon, String text) {
-    return Column(
-      children: [
-        Icon(icon, size: 40, color: Colors.blue),
-        const SizedBox(height: 5),
-        Text(
-          text,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.blue,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildBottomNavigation(bool hasOperations) {
-    return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 5),
       color: Colors.blue[100],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ElevatedButton.icon(
-            onPressed: hasOperations ? _previousOperation : null,
-            icon: const Icon(Icons.arrow_back),
-            label: const Text('Anterior'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            ),
+          IconButton(
+            onPressed: _previousOperation,
+            icon: const Icon(Icons.arrow_back, size: 28),
+            color: Colors.blue,
+            padding: const EdgeInsets.all(10),
+            tooltip: 'Anterior (swipe ←)',
           ),
-          ElevatedButton.icon(
-            onPressed: hasOperations ? _showAnswer : null,
-            icon: const Icon(Icons.visibility),
-            label: const Text('Ver Respuesta'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            ),
+          IconButton(
+            onPressed: _showAnswer,
+            icon: const Icon(Icons.visibility, size: 28),
+            color: Colors.green,
+            padding: const EdgeInsets.all(10),
+            tooltip: 'Ver respuesta (swipe ↓)',
           ),
-          ElevatedButton.icon(
+          IconButton(
             onPressed: _nextOperation,
-            icon: const Icon(Icons.arrow_forward),
-            label: const Text('Siguiente'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            ),
+            icon: const Icon(Icons.arrow_forward, size: 28),
+            color: Colors.blue,
+            padding: const EdgeInsets.all(10),
+            tooltip: 'Siguiente (swipe →)',
           ),
         ],
       ),

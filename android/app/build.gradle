@@ -56,3 +56,22 @@ android {
 flutter {
     source = "../.."
 }
+
+android {
+    // ... código existente ...
+    
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def project = "MentiMath"
+            def separator = "_"
+            def buildType = variant.buildType.name
+            def version = variant.versionName
+            def date = new Date()
+            def formattedDate = date.format('yyyyMMdd')
+            
+            def newApkName = "${project}${separator}${buildType}${separator}${version}${separator}${formattedDate}.apk"
+            
+            output.outputFileName = newApkName
+        }
+    }
+}

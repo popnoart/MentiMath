@@ -19,7 +19,7 @@ ios/Flutter/Flutter.framework/
 ios/Flutter/Flutter.podspec
 ios/Flutter/GeneratedPluginRegistrant.*
 
-# IntelliJ
+# IntelliJ/Android Studio
 .idea/
 *.iml
 
@@ -28,3 +28,7 @@ ios/Flutter/GeneratedPluginRegistrant.*
 
 # macOS
 .DS_Store
+
+# Archivos de configuración específicos del proyecto
+android/app/src/debug/
+android/app/src/profile/
